@@ -5,10 +5,16 @@ Here you find information about the implementation of the PMT simulation for the
 ## Main Features
 * **Light Propagation:** Calculation of arrival times and the number of photoelectrons based on the detector geometry.
 * **Signal generation:** Signal generation based on the SPE signal and subsequent digitization (ADC).
-* 
+
 ## File Structure
 * `pmt_hits.cxx / .h`: Main logic for Light Propagation and integration with the DigitizationRunner.
 * `pmt_signal.cxx / .h`: Main logic for Signal Generation and integration with the DigitizationRunner.
+
+## Data Output and Waveforms
+The simulated waveforms are stored within the `event_info` tree in the output ROOT files. Each PMT channel and digitizer type results in a specific branch containing the waveforms.
+
+* **Tree Structure:** The signals are saved as arrays in branches named `wav_[type]_pmt[n]`, where `[type]` is either `fast` or `slow` and `[n]` is the PMT index (1 to 4).
+* **Accessing Data:** You can load these waveforms by accessing the `event_info` tree. A practical example of how to handle the sampling frequencies and plot the signals is available in `pmt/plot_pmt_wf_example.ipynb`.
 
 ## Main Configuration Parameters (ConfigFile)
 The simulation is activated and controlled via the `# PMT simulation parameters` section in the `ConfigFile.txt`.
@@ -27,7 +33,6 @@ The simulation is activated and controlled via the `# PMT simulation parameters`
     * **PMT 2 (Top-Right)**: Located at `(142.0, -142.0)`.
     * **PMT 3 (Bottom-Right)**: Located at `(142.0, 142.0)`.
     * **PMT 4 (Bottom-Left)**: Located at `(-142.0, 142.0)`.
-    * *Note: These positions are used to calculate the solid angle and the specific photon arrival times for each sensor based on the event's spatial distribution.*
 
 * **Time Response (Transit Time):**
     * `transit_time`: Average transit time of photoelectrons (default: `17` ns).
