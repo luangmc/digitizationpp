@@ -16,6 +16,19 @@
 #include <map>
 
 /**
+ * @struct PMTVoxel
+ * @brief Stores photon emission data from a specific 3D spatial bin (voxel) for PMT simulation.
+ * * This structure acts as a bridge between the track digitization and the PMT propagation model,
+ * capturing the absolute position and the number of photons produced after saturation effects.
+ */
+struct PMTVoxel {
+    double x;          /**< X coordinate of the photon emission point [mm] */
+    double y;          /**< Y coordinate of the photon emission point [mm] */
+    double z;          /**< Z coordinate of the photon emission point [mm] */
+    double n_photons;  /**< Number of photons produced in this voxel after saturation */
+};
+
+/**
  * @class TrackProcessor
  * @author Stefano Piacentini
  * @brief Executes the digitization of Monte Carlo hits including charge smearing, gain application, and vignetting.
@@ -50,7 +63,8 @@ public:
                                const TH2F& VignMap,
                                float energy,
                                bool NR_flag,
-                               std::vector<std::vector<double>>& image);
+                               std::vector<std::vector<double>>& image,
+                               std::vector<PMTVoxel>& pmt_voxels);
 
     /**
      * @brief Computes the image without applying saturation.
